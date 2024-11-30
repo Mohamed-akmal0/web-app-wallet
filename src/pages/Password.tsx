@@ -1,11 +1,26 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../redux/store";
+import { setUserPassword } from "../redux/features/user";
 
 const Password = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch()
   //state
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   //function
-  const HandleButtonClick = () => {};
+  const HandleButtonClick = () => {
+    if (password.trim().length < 4) {
+      alert("please enter proper password");
+      return;
+    } else if (password.trim().length !== confirmPassword.trim().length) {
+      alert("Password does not match");
+      return;
+    }
+    dispatch(setUserPassword(password))
+    navigate("/seed");
+  };
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
@@ -13,7 +28,10 @@ const Password = () => {
 
       {/* Centered Box */}
       <div className="relative z-10 w-full max-w-md bg-white/80 backdrop-blur-sm rounded-xl shadow-2xl p-12 h-[400px]">
-        <form className="h-full flex flex-col justify-center space-y-6">
+        <form
+          className="h-full flex flex-col justify-center space-y-6"
+          onSubmit={HandleButtonClick}
+        >
           <div>
             <input
               type="text"
