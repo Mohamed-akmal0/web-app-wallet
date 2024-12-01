@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../redux/store";
-import { setUserPassword } from "../redux/features/user";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+import { setMnemonics, setUserPassword } from "../redux/features/user";
+import { generateMnemonic } from "bip39";
 
 const Password = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  //redux
+  const { mnemonics } = useAppSelector((state) => state.user);
   //state
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -19,6 +22,10 @@ const Password = () => {
       return;
     }
     dispatch(setUserPassword(password));
+    if (mnemonics === null) {
+      const mnemonic = generateMnemonic();
+      dispatch(setMnemonics(mnemonic));
+    }
     navigate("/seed");
   };
   return (

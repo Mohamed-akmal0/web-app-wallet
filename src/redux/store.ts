@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { persistReducer } from "redux-persist";
+import { PERSIST, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 //reducers
 import userReducer from "./features/user";
@@ -19,7 +19,13 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  //   middleware: [thunk],
+  //this resolve non-serialize value was detected in an action
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [PERSIST],
+      },
+    }),
 });
 export const RootState = store.getState();
 
