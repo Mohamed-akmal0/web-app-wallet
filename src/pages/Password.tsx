@@ -5,7 +5,7 @@ import { setUserPassword } from "../redux/features/user";
 
 const Password = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   //state
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,49 +18,76 @@ const Password = () => {
       alert("Password does not match");
       return;
     }
-    dispatch(setUserPassword(password))
+    dispatch(setUserPassword(password));
     navigate("/seed");
   };
-
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
-      {/* Background images */}
-
-      {/* Centered Box */}
-      <div className="relative z-10 w-full max-w-md bg-white/80 backdrop-blur-sm rounded-xl shadow-2xl p-12 h-[400px]">
-        <form
-          className="h-full flex flex-col justify-center space-y-6"
-          onSubmit={HandleButtonClick}
-        >
-          <div>
-            <input
-              type="text"
-              id="input1"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#8C52FF] focus:border-[#8C52FF]"
-              placeholder="Enter Password"
-            />
-          </div>
-
-          <div>
-            <input
-              type="text"
-              id="input2"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#8C52FF] focus:border-[#8C52FF]"
-              placeholder="Confirm Password"
-            />
-          </div>
-
+    <div className="flex items-center justify-center h-screen">
+      <div className="w-[100%] max-w-md bg-gray-900 text-white p-6 rounded-lg shadow-xl">
+        {/* Back Arrow and Dots */}
+        <div className="flex justify-between items-center mb-6 ">
           <button
-            type="submit"
-            className="w-full bg-[#8C52FF] text-white py-3 rounded-md hover:bg-[#7241d9] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#8C52FF] focus:ring-offset-2"
+            className="text-yellow-400 hover:text-yellow-600"
+            onClick={() => navigate("/")}
           >
-            Enter
+            &larr;
           </button>
-        </form>
+          {/* <div className="flex items-center space-x-1">
+            <span className="w-2 h-2 bg-gray-600 rounded-full"></span>
+            <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+            <span className="w-2 h-2 bg-gray-600 rounded-full"></span>
+          </div> */}
+        </div>
+
+        {/* Title and Subtitle */}
+        <h2 className="text-xl font-bold text-center">Create a password</h2>
+        <p className="text-gray-400 text-center mt-2">
+          You will use this to unlock your wallet.
+        </p>
+
+        {/* Input Fields */}
+        <div className="mt-6 space-y-4">
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            className="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+
+        {/* Checkbox */}
+        {/* <div className="mt-4 flex items-center">
+          <input
+            type="checkbox"
+            id="terms"
+            className="w-4 h-4 text-purple-500 bg-gray-800 border-gray-700 rounded focus:ring-purple-500"
+          />
+          <label
+            htmlFor="terms"
+            className="ml-2 text-gray-400 text-sm flex items-center"
+          >
+            I agree to the{" "}
+            <a href="#" className="text-purple-500 hover:underline ml-1">
+              Terms of Service
+            </a>
+          </label>
+        </div> */}
+
+        {/* Button */}
+        <button
+          className="w-full mt-6 py-3 bg-yellow-500 text-gray-300 rounded-md hover:bg-yellow-600"
+          onClick={HandleButtonClick}
+        >
+          Continue
+        </button>
       </div>
     </div>
   );
