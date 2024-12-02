@@ -11,7 +11,7 @@ const RootNavigation = () => {
   const { password } = useAppSelector((state) => state.user);
   useEffect(() => {
     if (password.length) {
-      // navigate("/home");
+      navigate("/home");
     }
   }, []);
 

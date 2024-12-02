@@ -6,13 +6,13 @@ const LandingPage = () => {
     if (isTrue) {
       navigate("/password");
     } else {
-      alert("hi");
+      // alert("hi");
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-black text-white rounded-lg shadow-lg p-8 w-full h-[450px] flex flex-col justify-between bg-gray-900">
+      <div className="bg-black text-white rounded-lg shadow-lg p-8 w-[50%] h-[450px] flex flex-col justify-between bg-gray-900">
         <div className="flex flex-col items-center">
           {/* Title */}
           <h1 className="text-2xl font-semibold mb-4">Predator Wallet</h1>
