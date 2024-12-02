@@ -9,6 +9,7 @@ const Home = () => {
       <Navbar />
       <main className="flex-grow">
         <MainHeader />
+        {/* //TODO: here need to conditionally render the solana and ethereum components */}
       </main>
       <Footer />
     </div>

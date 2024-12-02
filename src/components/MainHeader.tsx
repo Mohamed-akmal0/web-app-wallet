@@ -10,6 +10,9 @@ const MainHeader = () => {
     dispatch(setSelectedBlockChain(selectedBlockChain));
   };
 
+  //TODO : need to implement wallet creation feature here
+  const handleGenerateWalletBtnClick = () => {};
+
   return (
     <section className="flex flex-col items-start justify-start mt-4 ml-4 space-y-4">
       <h1 className="text-white text-4xl font-bold">
@@ -41,6 +44,12 @@ const MainHeader = () => {
         </div>
         {/* <p className="text-center mt-3">Show Secret Phrase</p>
         <p className="text-center mt-3">Change Block chain</p> */}
+        <button
+          className="px-4 py-2 bg-white text-black rounded-md hover:bg-green-400"
+          onClick={handleGenerateWalletBtnClick}
+        >
+          Generate Wallet
+        </button>
       </div>
     </section>
   );
