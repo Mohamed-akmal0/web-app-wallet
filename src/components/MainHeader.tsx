@@ -30,13 +30,23 @@ const MainHeader = () => {
       <div className="flex items-center justify-between w-full">
         <div className="flex space-x-4">
           <button
-            className="px-4 py-2 bg-white text-black rounded-md"
+            className={`px-4 py-2 rounded-md bg-white text-black ${
+              selectedBlockChain === "solana" ? "border-gold" : "transparent"
+            }`}
+            style={{
+              boxSizing: "border-box",
+            }}
             onClick={() => handleBockChainSelection("solana")}
           >
             Solana
           </button>
           <button
-            className="px-4 py-2 bg-white text-black rounded-md"
+           className={`px-4 py-2 rounded-md bg-white text-black ${
+            selectedBlockChain === "ethereum" ? " border-gold" : "transparent"
+          }`}
+            style={{
+              boxSizing: "border-box",
+            }}
             onClick={() => handleBockChainSelection("ethereum")}
           >
             Ethereum
@@ -45,7 +55,7 @@ const MainHeader = () => {
         {/* <p className="text-center mt-3">Show Secret Phrase</p>
         <p className="text-center mt-3">Change Block chain</p> */}
         <button
-          className="px-4 py-2 bg-white text-black rounded-md hover:bg-green-400"
+          className="px-4 py-2 bg-white text-black rounded-md hover:bg-yellow-600 hover:text-white transition duration-200"
           onClick={handleGenerateWalletBtnClick}
         >
           Generate Wallet
