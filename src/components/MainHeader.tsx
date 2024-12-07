@@ -1,22 +1,45 @@
-import { setSelectedBlockChain } from "../redux/features/user";
+import { mnemonicToSeed, mnemonicToSeedSync } from "bip39";
+import { setSelectedBlockChain, setSolanaAccount } from "../redux/features/user";
 import { useAppDispatch, useAppSelector } from "../redux/store";
+import { getDerivedPath } from "../utils/helperFunction";
+import { Wallet, HDNodeWallet, encodeBase58 } from "ethers";
+import { derivePath } from "ed25519-hd-key";
+import nacl from "tweetnacl";
+import { Keypair } from "@solana/web3.js";
 
 const MainHeader = () => {
   const dispatch = useAppDispatch();
   //redux
-  const { selectedBlockChain } = useAppSelector((state) => state.user);
+  const { selectedBlockChain, mnemonics, solanaAccounts } = useAppSelector(
+    (state) => state.user
+  );
   //function
   const handleBockChainSelection = (selectedBlockChain: string) => {
     dispatch(setSelectedBlockChain(selectedBlockChain));
   };
 
   //TODO : need to implement wallet creation feature here
-  const handleGenerateWalletBtnClick = () => {
-    //need to convert user mnemonics to seed
-    //then need to get the derive path of particular block chain
-    //then need to create derived seed using the seed and derived path
-    //need to create secret key using nacl and derived seed
-    //then need to increase the index to add the wallets
+  const handleGenerateWalletBtnClick = async () => {
+    try {
+      const seed: any = mnemonicToSeedSync(mnemonics);
+      const derivationPath: any = getDerivedPath(selectedBlockChain, solanaAccounts?.length + 1);
+      if (selectedBlockChain === "solana") {
+        const derivedSeed = derivePath(
+          derivationPath,
+          seed.toString("hex")
+        ).key;
+        const secret = nacl.sign.keyPair.fromSeed(derivedSeed).secretKey;
+        const keyPair = Keypair.fromSecretKey(secret);
+        //* secret key or private key is unint 64 bit
+        //* public key is unint 32 bit
+        const publicKey = keyPair.publicKey.toBase58();
+        const privateKey = encodeBase58(keyPair.secretKey);
+        dispatch(setSolanaAccount({publicKey, privateKey}))
+      } else {
+      }
+    } catch (error: any) {
+      console.log("error in generate wallet", error.response.data);
+    }
   };
 
   return (
@@ -47,9 +70,9 @@ const MainHeader = () => {
             Solana
           </button>
           <button
-           className={`px-4 py-2 rounded-md bg-white text-black ${
-            selectedBlockChain === "ethereum" ? " border-gold" : "transparent"
-          }`}
+            className={`px-4 py-2 rounded-md bg-white text-black ${
+              selectedBlockChain === "ethereum" ? " border-gold" : "transparent"
+            }`}
             style={{
               boxSizing: "border-box",
             }}

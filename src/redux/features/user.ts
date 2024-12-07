@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 type userState = {
   password: string;
   mnemonics: null | string;
-  selectedBlockChain: null | string;
+  selectedBlockChain: string;
   solanaAccounts: null | any[]; //need to define the array type later
   ethereumAccounts: null | any[];
 };
@@ -11,7 +11,7 @@ type userState = {
 const initialState: userState = {
   password: "",
   mnemonics: null,
-  selectedBlockChain: null,
+  selectedBlockChain: "",
   solanaAccounts: null,
   ethereumAccounts: null,
 };

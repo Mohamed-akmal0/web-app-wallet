@@ -8,7 +8,6 @@ type WalletComponent = {
 };
 
 const Wallet = ({ handleDeletePress, walletData }: WalletComponent) => {
-
   //redux
   const { selectedBlockChain } = useAppSelector((state) => state.user);
   //state
@@ -29,49 +28,54 @@ const Wallet = ({ handleDeletePress, walletData }: WalletComponent) => {
 
       {/* Wallet Card */}
       {walletData?.length &&
-        walletData?.map((data, index: number) => {
-          return (
-            <div className="bg-gray-900 rounded-lg p-6 shadow-lg" key={index}>
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">Wallet {index}</h2>
-                <div
-                  className="text-red-600 hover:text-red-800"
-                  onClick={handleDeletePress}
-                >
-                  <DeleteIcon />
+        walletData?.map(
+          (data: { publicKey: string; privateKey: string }, index: number) => {
+            return (
+              <div className="bg-gray-900 rounded-lg p-6 shadow-lg" key={index}>
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-semibold">Wallet {index+1}</h2>
+                  <div
+                    className="text-red-600 hover:text-red-800"
+                    onClick={handleDeletePress}
+                  >
+                    <DeleteIcon />
+                  </div>
                 </div>
-              </div>
 
-              {/* Public Key */}
-              <div className="mb-4">
-                <h3 className="text-sm font-bold">Public Key</h3>
-                <p className="text-sm">here will show the wallet public key</p>
-              </div>
+                {/* Public Key */}
+                <div className="mb-4">
+                  <h3 className="text-sm font-bold">Public Key</h3>
+                  <p className="text-sm  break-all ">{data?.publicKey}</p>
+                </div>
 
-              {/* Private Key */}
-              <div className="flex items-center">
-                <div className="flex-1">
-                  <h3 className="text-sm font-bold">Private Key</h3>
-                  <p className="text-sm text-ellipsis overflow-hidden whitespace-nowrap">
-                    {/* //TODO: need to conditionally render the private key according user show private key click*/}
-                    ••••••••••••••••••••••••••••••••••••••••••••••••••
-                  </p>
-                </div>
-                <div
-                  className="text-white hover:text-gray-400"
-                  onClick={() => setShowPrivateKey(!showPrivateKey)}
-                >
-                  {showPrivateKey ? <EyeClose /> : <EyeOpen />}
+                {/* Private Key */}
+                <div className="flex items-center">
+                  <div className="flex-1">
+                    <h3 className="text-sm font-bold">Private Key</h3>
+                    <p className="text-sm  break-all">
+                      {showPrivateKey
+                        ? data?.privateKey
+                        : `•••••••••••••••••••••••••••••••••••••••••••••••`}
+                    </p>
+                  </div>
+                  <div
+                    className="text-white hover:text-gray-400"
+                    onClick={() => setShowPrivateKey(!showPrivateKey)}
+                  >
+                    {showPrivateKey ? <EyeClose /> : <EyeOpen />}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          }
+        )}
       {walletData === null && (
         <div className="flex items-center justify-center mt-10 ">
           <p className="text-white text-center text-lg sm:text-xl md:text-2xl">
             Currently you don't have any{" "}
-             {selectedBlockChain?.charAt(0)?.toUpperCase() + selectedBlockChain?.slice(1)} wallet
+            {selectedBlockChain?.charAt(0)?.toUpperCase() +
+              selectedBlockChain?.slice(1)}{" "}
+            wallet
           </p>
         </div>
       )}
