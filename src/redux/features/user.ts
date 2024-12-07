@@ -43,6 +43,7 @@ export const userSlice = createSlice({
         state.ethereumAccounts.push(action.payload);
       }
     },
+    resetUserState: () => initialState,
   },
 });
 
