@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type accountType = {
+  publicKey : string;
+  privateKey :string ; 
+}
+
 type userState = {
   password: string;
   mnemonics: null | string;
   selectedBlockChain: string;
-  solanaAccounts: null | any[]; //need to define the array type later
-  ethereumAccounts: null | any[];
+  solanaAccounts: null | accountType[]; //need to define the array type later
+  ethereumAccounts: null | accountType[];
 };
 
 const initialState: userState = {
@@ -43,6 +48,12 @@ export const userSlice = createSlice({
         state.ethereumAccounts.push(action.payload);
       }
     },
+    deleteSolanaAccount: (state, action) => {
+      // Filter out the account by id
+      state.solanaAccounts = state.solanaAccounts?.filter(
+        (account) => account?.publicKey !== action.payload
+      );
+    },
     resetUserState: () => initialState,
   },
 });
@@ -53,5 +64,6 @@ export const {
   setSelectedBlockChain,
   setSolanaAccount,
   setEthereumAccount,
+  deleteSolanaAccount
 } = userSlice.actions;
 export default userSlice.reducer;

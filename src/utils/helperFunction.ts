@@ -12,3 +12,11 @@ export const getDerivedPath = (
   }
   return derivationPath;
 };
+
+export const getSelectedAccount = (selectedAccount: string) => {
+  if (selectedAccount === "solana") {
+    return true;
+  } else {
+    return false;
+  }
+};

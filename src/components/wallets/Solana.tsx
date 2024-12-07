@@ -5,12 +5,8 @@ const SolanaComponent = () => {
   //redux
   const { solanaAccounts } = useAppSelector((state) => state.user);
 
-  //functions
-  const handleDeleteWallet = () => {};
-
   return (
     <Wallet
-      handleDeletePress={handleDeleteWallet}
       walletData={solanaAccounts}
     />
   );

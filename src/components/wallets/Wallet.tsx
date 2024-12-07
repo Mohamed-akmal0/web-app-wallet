@@ -1,17 +1,36 @@
 import { useState } from "react";
 import { DeleteIcon, EyeClose, EyeOpen } from "../../assets/icons";
-import { useAppSelector } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { deleteSolanaAccount } from "../../redux/features/user";
+import { getSelectedAccount } from "../../utils/helperFunction";
 
 type WalletComponent = {
   walletData: null | any[];
-  handleDeletePress: () => void;
+  handleDeletePress?: () => void;
 };
 
-const Wallet = ({ handleDeletePress, walletData }: WalletComponent) => {
+const Wallet = ({ walletData }: WalletComponent) => {
+  const dispatch = useAppDispatch();
   //redux
   const { selectedBlockChain } = useAppSelector((state) => state.user);
   //state
-  const [showPrivateKey, setShowPrivateKey] = useState(false);
+  const [visiblePrivateKey, setVisiblePrivateKey] = useState<string | null>(null);
+
+  //functions
+
+  const toggleShowPrivateKey = (publicKey: string) => {
+    setVisiblePrivateKey((prev) => (prev === publicKey ? null : publicKey));
+  };
+
+  const deleteWallet = (publicKey: string) => {
+    const isSolana = getSelectedAccount(selectedBlockChain);
+    if (isSolana) {
+      dispatch(deleteSolanaAccount(publicKey));
+    } else {
+      //TODO need to create delete feature for ethereum here
+    }
+  };
+
   return (
     <div className="bg-black text-white min-h-screen p-8 overflow-hidden">
       {/* <h1 className="text-3xl font-bold mb-6">Solana Wallet</h1> */}
@@ -30,13 +49,17 @@ const Wallet = ({ handleDeletePress, walletData }: WalletComponent) => {
       {walletData?.length &&
         walletData?.map(
           (data: { publicKey: string; privateKey: string }, index: number) => {
+            const isPrivateKeyVisible = visiblePrivateKey === data.publicKey;
             return (
-              <div className="bg-gray-900 rounded-lg p-6 shadow-lg" key={index}>
+              <div
+                className="bg-gray-900 rounded-lg p-6 shadow-lg mb-4"
+                key={index}
+              >
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold">Wallet {index+1}</h2>
+                  <h2 className="text-xl font-semibold">Wallet {index + 1}</h2>
                   <div
                     className="text-red-600 hover:text-red-800"
-                    onClick={handleDeletePress}
+                    onClick={() => deleteWallet(data?.publicKey)}
                   >
                     <DeleteIcon />
                   </div>
@@ -53,16 +76,16 @@ const Wallet = ({ handleDeletePress, walletData }: WalletComponent) => {
                   <div className="flex-1">
                     <h3 className="text-sm font-bold">Private Key</h3>
                     <p className="text-sm  break-all">
-                      {showPrivateKey
+                      {isPrivateKeyVisible
                         ? data?.privateKey
                         : `•••••••••••••••••••••••••••••••••••••••••••••••`}
                     </p>
                   </div>
                   <div
                     className="text-white hover:text-gray-400"
-                    onClick={() => setShowPrivateKey(!showPrivateKey)}
+                    onClick={() => toggleShowPrivateKey(data.publicKey)}
                   >
-                    {showPrivateKey ? <EyeClose /> : <EyeOpen />}
+                    {isPrivateKeyVisible ? <EyeOpen /> : <EyeClose />}
                   </div>
                 </div>
               </div>
