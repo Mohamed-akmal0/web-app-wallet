@@ -11,7 +11,13 @@ const MainHeader = () => {
   };
 
   //TODO : need to implement wallet creation feature here
-  const handleGenerateWalletBtnClick = () => {};
+  const handleGenerateWalletBtnClick = () => {
+    //need to convert user mnemonics to seed
+    //then need to get the derive path of particular block chain
+    //then need to create derived seed using the seed and derived path
+    //need to create secret key using nacl and derived seed
+    //then need to increase the index to add the wallets
+  };
 
   return (
     <section className="flex flex-col items-start justify-start mt-4 ml-4 space-y-4">

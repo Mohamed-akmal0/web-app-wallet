@@ -2,6 +2,7 @@
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
 import MainHeader from "../components/MainHeader";
+import SolanaComponent from "../components/wallets/Solana";
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
       <main className="flex-grow">
         <MainHeader />
         {/* //TODO: here need to conditionally render the solana and ethereum components */}
+        <SolanaComponent />
       </main>
       <Footer />
     </div>
