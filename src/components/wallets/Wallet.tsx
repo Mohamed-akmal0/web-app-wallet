@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { DeleteIcon, EyeClose, EyeOpen } from "../../assets/icons";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { deleteSolanaAccount } from "../../redux/features/user";
+import {
+  deleteEthAccount,
+  deleteSolanaAccount,
+} from "../../redux/features/user";
 import { getSelectedAccount } from "../../utils/helperFunction";
+import { toast } from "sonner";
 
 type WalletComponent = {
   walletData: null | any[];
@@ -14,7 +18,9 @@ const Wallet = ({ walletData }: WalletComponent) => {
   //redux
   const { selectedBlockChain } = useAppSelector((state) => state.user);
   //state
-  const [visiblePrivateKey, setVisiblePrivateKey] = useState<string | null>(null);
+  const [visiblePrivateKey, setVisiblePrivateKey] = useState<string | null>(
+    null
+  );
 
   //functions
 
@@ -26,8 +32,10 @@ const Wallet = ({ walletData }: WalletComponent) => {
     const isSolana = getSelectedAccount(selectedBlockChain);
     if (isSolana) {
       dispatch(deleteSolanaAccount(publicKey));
+      toast.success("Solana wallet deleted successfully");
     } else {
-      //TODO need to create delete feature for ethereum here
+      dispatch(deleteEthAccount(publicKey));
+      toast.success("Ethereum wallet deleted successfully");
     }
   };
 
@@ -46,7 +54,7 @@ const Wallet = ({ walletData }: WalletComponent) => {
     </div> */}
 
       {/* Wallet Card */}
-      {walletData?.length &&
+      {walletData?.length > 0 &&
         walletData?.map(
           (data: { publicKey: string; privateKey: string }, index: number) => {
             const isPrivateKeyVisible = visiblePrivateKey === data.publicKey;
@@ -92,7 +100,7 @@ const Wallet = ({ walletData }: WalletComponent) => {
             );
           }
         )}
-      {walletData === null && (
+      {walletData === null || walletData?.length === 0&& (
         <div className="flex items-center justify-center mt-10 ">
           <p className="text-white text-center text-lg sm:text-xl md:text-2xl">
             Currently you don't have any{" "}

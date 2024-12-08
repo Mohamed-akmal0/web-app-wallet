@@ -8,7 +8,7 @@ export const getDerivedPath = (
     derivationPath = `m/44'/501'/${accountIndex}'/0'`;
   } else {
     // derivationPath = `m/44'/60'/0/${accountIndex}`;
-    derivationPath = `m/44'/60'/${accountIndex}'/0`;
+    derivationPath = `m/44'/60'/${accountIndex}'/0'`;
   }
   return derivationPath;
 };

@@ -49,8 +49,14 @@ export const userSlice = createSlice({
       }
     },
     deleteSolanaAccount: (state, action) => {
-      // Filter out the account by id
+      // Filtering the wallet by public key
       state.solanaAccounts = state.solanaAccounts?.filter(
+        (account) => account?.publicKey !== action.payload
+      );
+    },
+    deleteEthAccount: (state, action) => {
+      // Filtering the wallet by public key
+      state.ethereumAccounts = state.ethereumAccounts?.filter(
         (account) => account?.publicKey !== action.payload
       );
     },
@@ -64,6 +70,7 @@ export const {
   setSelectedBlockChain,
   setSolanaAccount,
   setEthereumAccount,
-  deleteSolanaAccount
+  deleteSolanaAccount,
+  deleteEthAccount
 } = userSlice.actions;
 export default userSlice.reducer;

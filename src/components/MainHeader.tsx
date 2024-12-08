@@ -1,11 +1,16 @@
-import { mnemonicToSeed, mnemonicToSeedSync } from "bip39";
-import { setSelectedBlockChain, setSolanaAccount } from "../redux/features/user";
+import { mnemonicToSeedSync } from "bip39";
+import {
+  setEthereumAccount,
+  setSelectedBlockChain,
+  setSolanaAccount,
+} from "../redux/features/user";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { getDerivedPath } from "../utils/helperFunction";
-import { Wallet, HDNodeWallet, encodeBase58 } from "ethers";
+import { Wallet, HDNodeWallet, encodeBase58, ethers } from "ethers";
 import { derivePath } from "ed25519-hd-key";
 import nacl from "tweetnacl";
 import { Keypair } from "@solana/web3.js";
+import { toast } from "sonner";
 
 const MainHeader = () => {
   const dispatch = useAppDispatch();
@@ -18,27 +23,39 @@ const MainHeader = () => {
     dispatch(setSelectedBlockChain(selectedBlockChain));
   };
 
-  //TODO : need to implement wallet creation feature here
   const handleGenerateWalletBtnClick = async () => {
+    if(selectedBlockChain === ""){
+      toast.info("Please select any block chain to start")
+    }
     try {
       const seed: any = mnemonicToSeedSync(mnemonics);
-      const derivationPath: any = getDerivedPath(selectedBlockChain, solanaAccounts?.length + 1);
+      const derivationPath: any = getDerivedPath(
+        selectedBlockChain,
+        solanaAccounts?.length + 1
+      );
+      const derivedSeed = derivePath(derivationPath, seed.toString("hex")).key;
       if (selectedBlockChain === "solana") {
-        const derivedSeed = derivePath(
-          derivationPath,
-          seed.toString("hex")
-        ).key;
         const secret = nacl.sign.keyPair.fromSeed(derivedSeed).secretKey;
         const keyPair = Keypair.fromSecretKey(secret);
-        //* secret key or private key is unint 64 bit
-        //* public key is unint 32 bit
+        //* secret key or private key is unint8 array 64 bit
+        //* public key is unint8 array 32 bit
         const publicKey = keyPair.publicKey.toBase58();
         const privateKey = encodeBase58(keyPair.secretKey);
-        dispatch(setSolanaAccount({publicKey, privateKey}))
+        dispatch(setSolanaAccount({ publicKey, privateKey }));
+        toast.success("Created your solana wallet")
       } else {
+        const hdNode = HDNodeWallet.fromSeed(seed);
+        const child = hdNode.derivePath(derivationPath);
+        const ethPrivateKey = child.privateKey;
+        //* from this public key is not the actual key , address is the public key for eth
+        const wallet = new ethers.Wallet(ethPrivateKey);
+        const privateKey = wallet.privateKey;
+        const publicKey = wallet.address;
+        dispatch(setEthereumAccount({ publicKey, privateKey }));
+        toast.success("Created your ethereum wallet")
       }
     } catch (error: any) {
-      console.log("error in generate wallet", error.response.data);
+      toast.error("Something went wrong! While creating your account")
     }
   };
 

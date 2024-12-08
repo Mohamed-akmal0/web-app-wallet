@@ -4,12 +4,10 @@ import Wallet from "./Wallet";
 const EthereumComponent = () => {
   //redux
   const { ethereumAccounts } = useAppSelector((state) => state.user);
-  //functions
-  const handleDeleteWallet = () => {};
+  console.log("eht accoutn",ethereumAccounts)
   return (
     <Wallet
       walletData={ethereumAccounts}
-      handleDeletePress={handleDeleteWallet}
     />
   );
 };
