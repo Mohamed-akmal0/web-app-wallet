@@ -6,7 +6,7 @@ import {
 } from "../redux/features/user";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { getDerivedPath } from "../utils/helperFunction";
-import { Wallet, HDNodeWallet, encodeBase58, ethers } from "ethers";
+import { HDNodeWallet, encodeBase58, ethers } from "ethers";
 import { derivePath } from "ed25519-hd-key";
 import nacl from "tweetnacl";
 import { Keypair } from "@solana/web3.js";
@@ -18,6 +18,7 @@ const MainHeader = () => {
   const { selectedBlockChain, mnemonics, solanaAccounts } = useAppSelector(
     (state) => state.user
   );
+
   //function
   const handleBockChainSelection = (selectedBlockChain: string) => {
     dispatch(setSelectedBlockChain(selectedBlockChain));
