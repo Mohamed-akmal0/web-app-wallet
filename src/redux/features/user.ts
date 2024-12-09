@@ -9,16 +9,16 @@ type userState = {
   password: string;
   mnemonics: null | string;
   selectedBlockChain: string;
-  solanaAccounts: null | accountType[]; //need to define the array type later
-  ethereumAccounts: null | accountType[];
+  solanaAccounts: [] | accountType[]; //need to define the array type later
+  ethereumAccounts: [] | accountType[];
 };
 
 const initialState: userState = {
   password: "",
   mnemonics: null,
   selectedBlockChain: "",
-  solanaAccounts: null,
-  ethereumAccounts: null,
+  solanaAccounts: [],
+  ethereumAccounts: [],
 };
 
 export const userSlice = createSlice({

@@ -15,7 +15,7 @@ import { toast } from "sonner";
 const MainHeader = () => {
   const dispatch = useAppDispatch();
   //redux
-  const { selectedBlockChain, mnemonics, solanaAccounts } = useAppSelector(
+  const { selectedBlockChain, mnemonics, solanaAccounts, ethereumAccounts } = useAppSelector(
     (state) => state.user
   );
 
@@ -30,12 +30,12 @@ const MainHeader = () => {
     }
     try {
       const seed: any = mnemonicToSeedSync(mnemonics);
-      const derivationPath: any = getDerivedPath(
-        selectedBlockChain,
-        solanaAccounts?.length + 1
-      );
-      const derivedSeed = derivePath(derivationPath, seed.toString("hex")).key;
       if (selectedBlockChain === "solana") {
+        const derivationPath: any = getDerivedPath(
+          selectedBlockChain,
+          solanaAccounts?.length + 1
+        );
+        const derivedSeed = derivePath(derivationPath, seed.toString("hex")).key;
         const secret = nacl.sign.keyPair.fromSeed(derivedSeed).secretKey;
         const keyPair = Keypair.fromSecretKey(secret);
         //* secret key or private key is unint8 array 64 bit
@@ -46,6 +46,10 @@ const MainHeader = () => {
         toast.success("Created your solana wallet")
       } else {
         const hdNode = HDNodeWallet.fromSeed(seed);
+        const derivationPath: any = getDerivedPath(
+          selectedBlockChain,
+          ethereumAccounts?.length + 1
+        );
         const child = hdNode.derivePath(derivationPath);
         const ethPrivateKey = child.privateKey;
         //* from this public key is not the actual key , address is the public key for eth
