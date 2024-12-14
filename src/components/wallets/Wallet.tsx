@@ -109,7 +109,9 @@ const Wallet = ({ walletData }: WalletComponent) => {
                 <h3 className="text-sm font-bold text-gray-400">Balance</h3>
                 <p
                   className={`text-sm ${
-                    data.balance === null ? "text-yellow-400" : "text-white"
+                    data.balance === null || isLoading
+                      ? "text-yellow-400"
+                      : "text-white"
                   }`}
                 >
                   {isLoading

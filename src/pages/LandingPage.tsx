@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -6,7 +7,7 @@ const LandingPage = () => {
     if (isTrue) {
       navigate("/password");
     } else {
-      // alert("hi");
+      toast.info("Feature coming soon!!")
     }
   };
 

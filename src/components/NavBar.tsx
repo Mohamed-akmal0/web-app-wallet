@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 const Navbar = ({setOpenModal, openModal}:any) => {
   return (
     <nav className="">
@@ -28,7 +30,7 @@ const Navbar = ({setOpenModal, openModal}:any) => {
           </button>
 
           {/* Dropdown menu */}
-        <div
+        {/* <div
           className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
           id="user-dropdown"
         >
@@ -71,7 +73,7 @@ const Navbar = ({setOpenModal, openModal}:any) => {
               </a>
             </li>
           </ul>
-        </div>
+        </div> */}
 
         <button
           data-collapse-toggle="navbar-user"
@@ -111,7 +113,9 @@ const Navbar = ({setOpenModal, openModal}:any) => {
               </span>
             </li>
             <li>
-              <span className="block py-2 px-3 text-white0 rounded hover:bg-gray-100 md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent ">
+              <span className="block py-2 px-3 text-white0 rounded hover:bg-gray-100 md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent "
+              onClick={() => toast.info("Feature coming soon!!")}
+              >
                 Change Password
               </span>
             </li>
