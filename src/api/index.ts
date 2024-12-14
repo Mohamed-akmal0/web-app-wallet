@@ -6,6 +6,7 @@ import {
 } from "../redux/features/user";
 import { axiosInstance } from "./axiosInstance";
 import { toast } from "sonner";
+import { ethers } from "ethers";
 
 interface BlockchainConfig {
   endpoint: string;
@@ -45,8 +46,8 @@ export const getAccountBalance = async (
       id: "1",
       method,
       //* wallet address of top eth holder
-    //   params: ["0x00000000219ab540356cBB839Cbe05303d7705Fa"],
-      params: [publicKey],
+      params: ["0x00000000219ab540356cBB839Cbe05303d7705Fa"],
+    //   params: [publicKey],
     };
 
 
@@ -56,7 +57,7 @@ export const getAccountBalance = async (
       const balance =
         blockChain === "ethereum"
         //* eth conversion from wei
-          ? response.data.result * 10^18
+          ? ethers.formatEther(response.data.result)
           : response.data.result.value / LAMPORTS_PER_SOL;
       blockChain === "ethereum"
         ? dispatch(setEthBalance({ balance, publicKey }))
