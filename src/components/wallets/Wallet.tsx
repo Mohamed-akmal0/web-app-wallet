@@ -24,6 +24,8 @@ const Wallet = ({ walletData }: WalletComponent) => {
 
   //functions
 
+  const renderText = selectedBlockChain === "ethereum" ? "Eth" : "Sol";
+
   const toggleShowPrivateKey = (publicKey: string) => {
     setVisiblePrivateKey((prev) => (prev === publicKey ? null : publicKey));
   };
@@ -63,34 +65,60 @@ const Wallet = ({ walletData }: WalletComponent) => {
                 className="bg-gray-900 rounded-lg p-6 shadow-lg mb-4"
                 key={index}
               >
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold">Wallet {index + 1}</h2>
-                  <div
-                    className="text-red-600 hover:text-red-800"
-                    onClick={() => deleteWallet(data?.publicKey)}
-                  >
-                    <DeleteIcon />
+                {/* Header: Wallet Title, Get Balance Button, and Delete Icon */}
+                <div className="flex justify-between items-center mb-2">
+                  <h2 className="text-xl font-semibold text-white">
+                    Wallet {index + 1}
+                  </h2>
+
+                  <div className="flex items-center space-x-4">
+                    {/* Balance Button */}
+                    <button className="px-2 py-1 bg-yellow-500 text-black font-regular rounded-md hover:bg-yellow-600 transition duration-200">
+                      Balance
+                    </button>
+                    {/* Delete Icon */}
+                    <div
+                      className="text-red-600 hover:text-red-800 cursor-pointer"
+                      onClick={() => deleteWallet(data?.publicKey)}
+                    >
+                      <DeleteIcon />
+                    </div>
                   </div>
+                </div>
+
+                {/* Balance */}
+                <div className="mb-4">
+                  <h3 className="text-sm font-bold text-gray-400">Balance</h3>
+                  <p className="text-sm text-white">
+                    {data?.balance ?? "0.00"} {renderText}
+                  </p>
                 </div>
 
                 {/* Public Key */}
                 <div className="mb-4">
-                  <h3 className="text-sm font-bold">Public Key</h3>
-                  <p className="text-sm  break-all ">{data?.publicKey}</p>
+                  <h3 className="text-sm font-bold text-gray-400">
+                    Public Key
+                  </h3>
+                  <p className="text-sm break-all text-white">
+                    {data?.publicKey}
+                  </p>
                 </div>
 
                 {/* Private Key */}
-                <div className="flex items-center">
+                <div className="flex items-center justify-between">
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold">Private Key</h3>
-                    <p className="text-sm  break-all">
+                    <h3 className="text-sm font-bold text-gray-400">
+                      Private Key
+                    </h3>
+                    <p className="text-sm break-all text-white">
                       {isPrivateKeyVisible
                         ? data?.privateKey
                         : `•••••••••••••••••••••••••••••••••••••••••••••••`}
                     </p>
                   </div>
+                  {/* Eye Icon */}
                   <div
-                    className="text-white hover:text-gray-400"
+                    className="text-white hover:text-gray-400 cursor-pointer"
                     onClick={() => toggleShowPrivateKey(data.publicKey)}
                   >
                     {isPrivateKeyVisible ? <EyeOpen /> : <EyeClose />}
@@ -100,16 +128,17 @@ const Wallet = ({ walletData }: WalletComponent) => {
             );
           }
         )}
-      {walletData === null || walletData?.length === 0&& (
-        <div className="flex items-center justify-center mt-10 ">
-          <p className="text-white text-center text-lg sm:text-xl md:text-2xl">
-            Currently you don't have any{" "}
-            {selectedBlockChain?.charAt(0)?.toUpperCase() +
-              selectedBlockChain?.slice(1)}{" "}
-            wallet
-          </p>
-        </div>
-      )}
+      {walletData === null ||
+        (walletData?.length === 0 && (
+          <div className="flex items-center justify-center mt-10 ">
+            <p className="text-white text-center text-lg sm:text-xl md:text-2xl">
+              Currently you don't have any{" "}
+              {selectedBlockChain?.charAt(0)?.toUpperCase() +
+                selectedBlockChain?.slice(1)}{" "}
+              wallet
+            </p>
+          </div>
+        ))}
     </div>
   );
 };
