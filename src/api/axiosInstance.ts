@@ -1,5 +1,10 @@
 import axios from "axios";
 
-export const Axios = axios.create({
-    baseURL: "",
-})
+export const axiosInstance = (apiEndPoint: string) =>
+  axios.create({
+    baseURL: apiEndPoint,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });

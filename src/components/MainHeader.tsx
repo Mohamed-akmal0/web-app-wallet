@@ -26,7 +26,8 @@ const MainHeader = () => {
 
   const handleGenerateWalletBtnClick = async () => {
     if(selectedBlockChain === ""){
-      toast.info("Please select any block chain to start")
+      toast.info("Please select any block chain to start");
+      return
     }
     try {
       const seed: any = mnemonicToSeedSync(mnemonics);

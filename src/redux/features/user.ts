@@ -1,16 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getAccountBalance } from "../../api";
 
 type accountType = {
-  publicKey : string;
-  privateKey :string ; 
-}
+  publicKey: string;
+  privateKey: string;
+  balance: null | string | number;
+};
 
 type userState = {
   password: string;
   mnemonics: null | string;
   selectedBlockChain: string;
-  solanaAccounts: [] | accountType[]; //need to define the array type later
+  solanaAccounts: [] | accountType[];
   ethereumAccounts: [] | accountType[];
+  balanceLoader: null | string;
 };
 
 const initialState: userState = {
@@ -19,6 +22,7 @@ const initialState: userState = {
   selectedBlockChain: "",
   solanaAccounts: [],
   ethereumAccounts: [],
+  balanceLoader: null,
 };
 
 export const userSlice = createSlice({
@@ -35,17 +39,19 @@ export const userSlice = createSlice({
       state.selectedBlockChain = action.payload;
     },
     setSolanaAccount: (state, action) => {
+      const updatedAction = { ...action.payload, balance: null };
       if (state.solanaAccounts === null) {
-        state.solanaAccounts = [action.payload];
+        state.solanaAccounts = [updatedAction];
       } else {
-        state.solanaAccounts.push(action.payload);
+        state.solanaAccounts.push(updatedAction);
       }
     },
     setEthereumAccount: (state, action) => {
+      const updatedAction = { ...action.payload, balance: null };
       if (state.ethereumAccounts === null) {
-        state.ethereumAccounts = [action.payload];
+        state.ethereumAccounts = [updatedAction];
       } else {
-        state.ethereumAccounts.push(action.payload);
+        state.ethereumAccounts.push(updatedAction);
       }
     },
     deleteSolanaAccount: (state, action) => {
@@ -60,6 +66,23 @@ export const userSlice = createSlice({
         (account) => account?.publicKey !== action.payload
       );
     },
+    setEthBalance: (state, action) => {
+      state.ethereumAccounts = state.ethereumAccounts.map((account) =>
+        account.publicKey === action.payload.publicKey
+          ? { ...account, balance: action.payload.balance }
+          : account
+      );  
+    },
+    setSolaBalance: (state, action) => {
+      state.solanaAccounts = state.solanaAccounts.map((account) =>
+        account.publicKey === action.payload.publicKey
+          ? { ...account, balance: action.payload.balance }
+          : account
+      ); 
+    },
+    setBalanceLoader: (state, action) => {
+      state.balanceLoader = action.payload;
+    },
     resetUserState: () => initialState,
   },
 });
@@ -71,6 +94,9 @@ export const {
   setSolanaAccount,
   setEthereumAccount,
   deleteSolanaAccount,
-  deleteEthAccount
+  deleteEthAccount,
+  setSolaBalance,
+  setEthBalance,
+  setBalanceLoader,
 } = userSlice.actions;
 export default userSlice.reducer;

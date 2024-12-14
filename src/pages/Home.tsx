@@ -5,12 +5,14 @@ import SolanaComponent from "../components/wallets/Solana";
 import { useAppSelector } from "../redux/store";
 import EthereumComponent from "../components/wallets/Ethereum";
 import Modal from "../components/ModalComponen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Seed from "./Seed";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate()
   //redux
-  const { selectedBlockChain } = useAppSelector((state) => state.user);
+  const { selectedBlockChain, password } = useAppSelector((state) => state.user);
   //state
   const [openModal, setIsModalOpen] = useState(false);
   //functions
@@ -18,6 +20,12 @@ const Home = () => {
   const handleModalClose = () => {
     setIsModalOpen(!setIsModalOpen);
   };
+
+  useEffect(() => {
+    if(password === ""){
+      navigate("/")
+    }
+  },[])
 
   return (
     <div className="flex flex-col min-h-screen">
