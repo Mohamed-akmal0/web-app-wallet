@@ -46,8 +46,8 @@ export const getAccountBalance = async (
       id: "1",
       method,
       //* wallet address of top eth holder
-      params: ["0x00000000219ab540356cBB839Cbe05303d7705Fa"],
-    //   params: [publicKey],
+    //   params: ["0x00000000219ab540356cBB839Cbe05303d7705Fa"],
+      params: [publicKey],
     };
 
 
