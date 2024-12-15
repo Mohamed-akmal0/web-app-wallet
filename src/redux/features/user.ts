@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAccountBalance } from "../../api";
 
 type accountType = {
   publicKey: string;
@@ -43,6 +42,7 @@ export const userSlice = createSlice({
       if (state.solanaAccounts === null) {
         state.solanaAccounts = [updatedAction];
       } else {
+        //@ts-ignore
         state.solanaAccounts.push(updatedAction);
       }
     },
@@ -51,6 +51,7 @@ export const userSlice = createSlice({
       if (state.ethereumAccounts === null) {
         state.ethereumAccounts = [updatedAction];
       } else {
+        //@ts-ignore
         state.ethereumAccounts.push(updatedAction);
       }
     },

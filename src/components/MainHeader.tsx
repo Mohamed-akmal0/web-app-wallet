@@ -20,7 +20,7 @@ const MainHeader = () => {
   );
 
   //function
-  const handleBockChainSelection = (selectedBlockChain: string) => {
+  const handleBockChainSelection = (selectedBlockChain: "solana" | "ethereum") => {
     dispatch(setSelectedBlockChain(selectedBlockChain));
   };
 
@@ -30,6 +30,7 @@ const MainHeader = () => {
       return
     }
     try {
+      //@ts-ignore
       const seed: any = mnemonicToSeedSync(mnemonics);
       if (selectedBlockChain === "solana") {
         const derivationPath: any = getDerivedPath(

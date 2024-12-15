@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Password from "../pages/Password";
 import Seed from "../pages/Seed";
