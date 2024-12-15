@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { setMnemonics, setUserPassword } from "../redux/features/user";
 import { generateMnemonic } from "bip39";
+import { toast } from "sonner";
 
 const Password = () => {
   const navigate = useNavigate();
@@ -15,10 +16,10 @@ const Password = () => {
   //function
   const HandleButtonClick = () => {
     if (password.trim().length < 4) {
-      alert("please enter proper password");
+      toast.error("please enter proper password");
       return;
     } else if (password.trim().length !== confirmPassword.trim().length) {
-      alert("Password does not match");
+      toast.error("Password does not match");
       return;
     }
     dispatch(setUserPassword(password));
