@@ -7,6 +7,7 @@ const SolanaComponent = () => {
 
   return (
     <Wallet
+    //@ts-ignore
       walletData={solanaAccounts}
     />
   );

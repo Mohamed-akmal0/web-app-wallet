@@ -7,6 +7,7 @@ const EthereumComponent = () => {
 
   return (
     <Wallet
+    //@ts-ignore
       walletData={ethereumAccounts}
     />
   );
