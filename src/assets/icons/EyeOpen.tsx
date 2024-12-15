@@ -1,4 +1,4 @@
-const EyeOpen = (props) => (
+const EyeOpen = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -6,7 +6,7 @@ const EyeOpen = (props) => (
       strokeWidth={1.5}
       stroke="currentColor"
       className="size-6"
-      {...props}
+      // {...props}
     >
       <path
         strokeLinecap="round"

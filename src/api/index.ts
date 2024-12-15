@@ -14,7 +14,7 @@ interface BlockchainConfig {
 }
 
 export const getAccountBalance = async (
-  blockChain: "solana" | "ethereum",
+  blockChain: string,
   publicKey: string,
   dispatch: any
 ) => {

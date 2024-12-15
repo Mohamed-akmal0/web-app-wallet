@@ -20,7 +20,8 @@ const MainHeader = () => {
   );
 
   //function
-  const handleBockChainSelection = (selectedBlockChain: "solana" | "ethereum") => {
+  //@ts-ignore
+  const handleBockChainSelection = (selectedBlockChain: string) => {
     dispatch(setSelectedBlockChain(selectedBlockChain));
   };
 

@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { getAccountBalance } from "../../api";
 
 type WalletComponent = {
-  walletData: null | any[];
+  walletData: [];
   handleDeletePress?: () => void;
 };
 
@@ -64,7 +64,7 @@ const Wallet = ({ walletData }: WalletComponent) => {
       </button>
     </div> */}
 
-      {/* Wallet Card */}
+      {/* Wallet Card */} 
       {walletData?.length > 0 &&
         walletData?.map((data: walletType, index: number) => {
           const isPrivateKeyVisible = visiblePrivateKey === data.publicKey;
