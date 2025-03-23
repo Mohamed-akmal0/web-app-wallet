@@ -21,7 +21,7 @@ export const getAccountBalance = async (
   try {
     dispatch(setBalanceLoader(publicKey));
 
-    const apiKey = import.meta.env.VITE_API_KEY;
+    const apiKey = import.meta.env.VITE_RPC_ENDPOINT;
 
     const blockchainConfig: Record<string, BlockchainConfig> = {
       solana: {

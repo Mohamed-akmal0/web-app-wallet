@@ -31,7 +31,7 @@ const Home = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar setOpenModal={setIsModalOpen} openModal={openModal} />
       <main className="flex-grow">
-        <MainHeader />
+        <MainHeader isFromHome={true}  />
         {selectedBlockChain === "solana" ? (
           <SolanaComponent />
         ) : (

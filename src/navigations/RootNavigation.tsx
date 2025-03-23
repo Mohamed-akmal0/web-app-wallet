@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import Password from "../pages/Password";
-import Seed from "../pages/Seed";
-import LandingPage from "../pages/LandingPage";
 import { useAppSelector } from "../redux/store";
-import Home from "../pages/Home";
+import { routes, RouteInterace } from "./routes";
 
 const RootNavigation = () => {
   const navigate = useNavigate();
@@ -17,10 +14,11 @@ const RootNavigation = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/password" element={<Password />} />
-      <Route path="/seed" element={<Seed />} />
-      <Route path="/home" element={<Home />} />
+      {routes.map((route: RouteInterace, index: number) => {
+        return (
+          <Route key={index} path={route.path} element={<route.component />} />
+        );
+      })}
     </Routes>
   );
 };

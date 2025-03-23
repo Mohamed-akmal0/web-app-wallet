@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -7,7 +6,7 @@ const LandingPage = () => {
     if (isTrue) {
       navigate("/password");
     } else {
-      toast.info("Feature coming soon!!")
+      navigate("/importWallet")
     }
   };
 
@@ -19,7 +18,7 @@ const LandingPage = () => {
           <h1 className="text-2xl font-semibold mb-4">Predator Wallet</h1>
           {/* Subtitle */}
           <p className="text-gray-400 text-m text-center">
-            To begin, create a new wallet or import an existing one.
+            To begin, create a new wallet or import an existing one or import your wallet.
           </p>
         </div>
         {/* Buttons */}
@@ -34,7 +33,7 @@ const LandingPage = () => {
             className="w-full bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 rounded"
             onClick={() => handleButtonClick(false)}
           >
-            I already have a wallet
+            Import your wallet 
           </button>
         </div>
       </div>

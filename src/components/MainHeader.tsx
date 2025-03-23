@@ -12,12 +12,11 @@ import nacl from "tweetnacl";
 import { Keypair } from "@solana/web3.js";
 import { toast } from "sonner";
 
-const MainHeader = () => {
+const MainHeader = ({isFromHome = false}) => {
   const dispatch = useAppDispatch();
   //redux
-  const { selectedBlockChain, mnemonics, solanaAccounts, ethereumAccounts } = useAppSelector(
-    (state) => state.user
-  );
+  const { selectedBlockChain, mnemonics, solanaAccounts, ethereumAccounts } =
+    useAppSelector((state) => state.user);
 
   //function
   //@ts-ignore
@@ -26,9 +25,9 @@ const MainHeader = () => {
   };
 
   const handleGenerateWalletBtnClick = async () => {
-    if(selectedBlockChain === ""){
+    if (selectedBlockChain === "") {
       toast.info("Please select any block chain to start");
-      return
+      return;
     }
     try {
       //@ts-ignore
@@ -38,7 +37,10 @@ const MainHeader = () => {
           selectedBlockChain,
           solanaAccounts?.length + 1
         );
-        const derivedSeed = derivePath(derivationPath, seed.toString("hex")).key;
+        const derivedSeed = derivePath(
+          derivationPath,
+          seed.toString("hex")
+        ).key;
         const secret = nacl.sign.keyPair.fromSeed(derivedSeed).secretKey;
         const keyPair = Keypair.fromSecretKey(secret);
         //* secret key or private key is unint8 array 64 bit
@@ -46,7 +48,7 @@ const MainHeader = () => {
         const publicKey = keyPair.publicKey.toBase58();
         const privateKey = encodeBase58(keyPair.secretKey);
         dispatch(setSolanaAccount({ publicKey, privateKey }));
-        toast.success("Created your solana wallet")
+        toast.success("Created your solana wallet");
       } else {
         const hdNode = HDNodeWallet.fromSeed(seed);
         const derivationPath: any = getDerivedPath(
@@ -60,61 +62,69 @@ const MainHeader = () => {
         const privateKey = wallet.privateKey;
         const publicKey = wallet.address;
         dispatch(setEthereumAccount({ publicKey, privateKey }));
-        toast.success("Created your ethereum wallet")
+        toast.success("Created your ethereum wallet");
       }
     } catch (error: any) {
-      toast.error("Something went wrong! While creating your account")
+      toast.error("Something went wrong! While creating your account");
     }
   };
 
   return (
     <section className="flex flex-col items-start justify-start mt-4 ml-4 space-y-4">
       <h1 className="text-white text-4xl font-bold">
-        Predator supports multiple blockchains
+        {isFromHome
+          ? ` Predator supports multiple blockchains`
+          : `Predator supports wallet adapter`}
       </h1>
-      <p className="text-gray-400 text-lg">
-        {selectedBlockChain === "solana"
-          ? "Solana blockchain is selected"
-          : selectedBlockChain === "ethereum"
-          ? "Ethereum blockchain is selected"
-          : selectedBlockChain === null &&
-            "Select a blockchain to create your first account."}
-      </p>
+      {isFromHome ? (
+        <p className="text-gray-400 text-lg">
+          {selectedBlockChain === "solana"
+            ? "Solana blockchain is selected"
+            : selectedBlockChain === "ethereum"
+            ? "Ethereum blockchain is selected"
+            : selectedBlockChain === null &&
+              "Select a blockchain to create your first account."}
+        </p>
+      ) : null}
 
-      <div className="flex items-center justify-between w-full">
-        <div className="flex space-x-4">
+      {isFromHome ? (
+        <div className="flex items-center justify-between w-full">
+          <div className="flex space-x-4">
+            <button
+              className={`px-4 py-2 rounded-md bg-white text-black ${
+                selectedBlockChain === "solana" ? "border-gold" : "transparent"
+              }`}
+              style={{
+                boxSizing: "border-box",
+              }}
+              onClick={() => handleBockChainSelection("solana")}
+            >
+              Solana
+            </button>
+            <button
+              className={`px-4 py-2 rounded-md bg-white text-black ${
+                selectedBlockChain === "ethereum"
+                  ? " border-gold"
+                  : "transparent"
+              }`}
+              style={{
+                boxSizing: "border-box",
+              }}
+              onClick={() => handleBockChainSelection("ethereum")}
+            >
+              Ethereum
+            </button>
+          </div>
+          {/* <p className="text-center mt-3">Show Secret Phrase</p>
+        <p className="text-center mt-3">Change Block chain</p> */}
           <button
-            className={`px-4 py-2 rounded-md bg-white text-black ${
-              selectedBlockChain === "solana" ? "border-gold" : "transparent"
-            }`}
-            style={{
-              boxSizing: "border-box",
-            }}
-            onClick={() => handleBockChainSelection("solana")}
+            className="px-4 py-2 bg-white text-black rounded-md hover:bg-yellow-600 hover:text-white transition duration-200"
+            onClick={handleGenerateWalletBtnClick}
           >
-            Solana
-          </button>
-          <button
-            className={`px-4 py-2 rounded-md bg-white text-black ${
-              selectedBlockChain === "ethereum" ? " border-gold" : "transparent"
-            }`}
-            style={{
-              boxSizing: "border-box",
-            }}
-            onClick={() => handleBockChainSelection("ethereum")}
-          >
-            Ethereum
+            Generate Wallet
           </button>
         </div>
-        {/* <p className="text-center mt-3">Show Secret Phrase</p>
-        <p className="text-center mt-3">Change Block chain</p> */}
-        <button
-          className="px-4 py-2 bg-white text-black rounded-md hover:bg-yellow-600 hover:text-white transition duration-200"
-          onClick={handleGenerateWalletBtnClick}
-        >
-          Generate Wallet
-        </button>
-      </div>
+      ) : null}
     </section>
   );
 };
